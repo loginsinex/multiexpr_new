@@ -53,6 +53,7 @@ CMyParser::CMyParser()
 		};
 
 	auto fsin = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return std::sin( varg[0].v ); };
+	auto fsinc = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return std::sin( varg[0].v ) / varg[0].v; };
 	auto fcos = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return std::cos( varg[0].v ); };
 	auto ftan = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return std::tan( varg[0].v ); };
 	auto fctan = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return TOK(1.0, 0.0).v / std::tan( varg[0].v ); };
@@ -65,7 +66,6 @@ CMyParser::CMyParser()
 	auto fexp = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return std::exp(varg[0].v); };
 	auto fsqrt = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return std::sqrt(varg[0].v); };
 	auto fcbrt = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return std::pow(varg[0].v, 1.0/3.0); };
-	// auto ctest = []( const std::vector<TOK> & varg ) { ASSERT_UNDEF(varg[0]); return varg[0].v / 5; };
 
 	AddOp( _T( '+' ), 10 ) = opPlus;
 	AddOp( _T( '-' ), 10 ) = opSubs;
@@ -82,6 +82,7 @@ CMyParser::CMyParser()
 	AddUnaryOp( _T('!'), FALSE, 1 ) = unFact;
 
 	AddFunc( TEXT("sin"), 1 ) = fsin;
+	AddFunc( TEXT("sinc"), 1 ) = fsinc;
 	AddFunc( TEXT("cos"), 1 ) = fcos;
 	AddFunc( TEXT("tg"), 1 ) = ftan;
 	AddFunc( TEXT("ctg"), 1 ) = fctan;
@@ -94,7 +95,6 @@ CMyParser::CMyParser()
 	AddFunc( TEXT("exp"), 1 ) = fexp;
 	AddFunc( TEXT("sqrt"), 1 ) = fsqrt;
 	AddFunc( TEXT("cbrt"), 1 ) = fcbrt;
-	// AddFunc( TEXT("ctest"), 1 ) = ctest;
 }
 
 void CMyParser::ParseDouble( const CStringOp & sExpression, size_t & uAtChar, long double & d )
